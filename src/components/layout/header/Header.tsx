@@ -10,7 +10,9 @@ import { deleteCards, getUserProfile } from "../../../store/tools/LoginSlice";
 import Modal2 from "../../modal2/Modal2";
 import { getPhotosResult } from "../../../store/tools/PhotosSlice";
 // import { Button } from "../../Ul/button/Button";
+import logo from "../../../assets/trello-line (1).svg";
 
+import logo2 from "../../../assets/trello-line (2).svg";
 export const Header = () => {
 	const dispatch = useDispatch();
 	const mapBekentsIsImg = useAppSelector(
@@ -39,9 +41,10 @@ export const Header = () => {
 	return (
 		<>
 			<HeaderContainer>
-				<div className="container">
+				<Container className="container">
 					<Content>
 						<ContentDiv1>
+							<Imgage src={logo2} alt="logo" />
 							<H3>Trello</H3>
 							<P>Рабочие пространства</P>
 							<P>Недавние</P>
@@ -50,6 +53,7 @@ export const Header = () => {
 							<Button onClick={() => setModalPhotos(true)}>Создать</Button>
 						</ContentDiv1>
 						<ContentDiv2>
+							<Input type="text" />
 							{mapBekentsIsImg.map((item, index) => (
 								<>
 									<Img
@@ -62,7 +66,7 @@ export const Header = () => {
 							))}
 						</ContentDiv2>
 					</Content>
-				</div>
+				</Container>
 			</HeaderContainer>
 			{modal &&
 				createPortal(
@@ -121,6 +125,38 @@ const HeaderContainer = styled.header`
 	justify-content: center;
 	align-items: center;
 	flex-direction: column; */
+	position: fixed;
+	left: 0;
+	top: 0;
+	backdrop-filter: blur(8px);
+	width: 100%;
+	height: 60px;
+	/* display: flex;
+	align-items: center;
+	justify-content: space-between; */
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-top: -8px;
+	/* display: flex;
+	align-items: center;
+	justify-content: space-between; */
+	background-color: #242323;
+`;
+
+const Container = styled.div`
+	width: 100%;
+	max-width: 1425px;
+	margin-inline: auto;
+	padding-inline: 30px;
+`;
+
+const Input = styled.input`
+	width: 185px;
+	height: 30px;
+	padding-left: 10px;
+
+	border-radius: 6px;
+	background-color: #656060;
 `;
 
 const Content = styled.div`
@@ -133,27 +169,39 @@ const ContentDiv1 = styled.div`
 	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
-	gap: 0.7rem;
+	gap: 1rem;
+	padding-left: 1.5rem;
 `;
 
 const H3 = styled.h3`
-	color: #2c2a2a;
-	font-size: 1.4rem;
+	color: #f7f3f3;
+	font-size: 1rem;
 	font-weight: 700;
 `;
 
 const P = styled.p`
 	color: #2c2a2a;
-	font-size: 1.1rem;
+	font-size: 0%.8;
 	font-weight: 550;
+	color: #f8e8e8;
+`;
+
+const Imgage = styled.img`
+	width: 20px;
+	height: auto;
+	position: relative;
+	z-index: 100;
+	background-color: transparent;
 `;
 
 const Button = styled.button`
-	width: 7.6rem;
-	height: 2.6rem;
-	background-color: #1616f8;
+	width: 4.6rem;
+	height: 2rem;
+	background-color: #6f6ff5;
+	border-radius: 7px;
+	border: none;
 	color: #0a0a0a;
-	font-size: 1rem;
+	font-size: 0.7rem;
 	font-weight: 500;
 `;
 
@@ -161,6 +209,7 @@ const ContentDiv2 = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	padding-right: 1.5rem;
 `;
 
 const Img = styled.img`

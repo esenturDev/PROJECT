@@ -1,6 +1,6 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Login } from "./pages/login/Login";
-import Pages1 from "./pages/pages1/Pages1";
+// import Pages1 from "./pages/pages1/Pages1";
 import styled from "styled-components";
 import { Header } from "./header/Header";
 import Registr from "./pages/registr/Registr";
@@ -14,20 +14,20 @@ const Layout = () => {
 				<Route path="/login" element={<Login />} />
 			</Routes>
 		);
-	} else if(pathname === '/registr') {
+	} else if (pathname === "/registr") {
 		return (
 			<Routes>
 				<Route path="/registr" element={<Registr />} />
 			</Routes>
-		)
+		);
 	}
 	return (
 		<LayoutContainer>
 			<Header />
 			<main>
 				<Routes>
-					<Route path="/" element={<Pages1 />} />
-					<Route path="/:id" element={<Todo_List />} />
+					{/* <Route path="/" element={<Pages1 />} /> */}
+					<Route path="/" element={<Todo_List />} />
 				</Routes>
 			</main>
 		</LayoutContainer>
@@ -41,8 +41,7 @@ const LayoutContainer = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 	min-height: 100vh;
-
 	main {
-		margin-top: 100px;
+		margin-top: 43px;
 	}
-`
+`;

@@ -1,11 +1,11 @@
-
-
 const Pages1 = () => {
-	return (
-		<div>
-			Коош келиниз!!!
-		</div>
-	);
+	const handleResult = () => {
+		localStorage.clear("cards");
+		localStorage.clear("CardsMap");
+	};
+	return <div>Коош келиниз!!!
+		<button onClick={handleResult}>DeleteLocal</button>
+	</div>;
 };
 
 export default Pages1;
