@@ -18,6 +18,7 @@ interface CardsResults {
 	};
 }
 
+
 export const putEditResult = createAsyncThunk(
 	"column/putEditResult",
 	async ({ newData, _id }: CardsResults) => {
@@ -32,11 +33,11 @@ export const putEditResult = createAsyncThunk(
 
 export const patchCommit = createAsyncThunk(
 	"column/patchCommit",
-	async ({ newData, id }: CardsResults) => {
-		console.log(newData, id);
+	async ({ newData, _id }: CardsResults) => {
+		console.log(newData, _id);
 		
 		try {
-			const response = (await axios.patch(`${url}/${id}`, newData)).data;
+			const response = (await axios.patch(`${url}/${_id}`, newData)).data;
 			return response;
 		} catch (error) {
 			console.error(error);

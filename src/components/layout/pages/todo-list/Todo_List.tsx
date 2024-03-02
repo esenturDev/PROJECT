@@ -38,7 +38,7 @@ const Todo_List = () => {
 	const [isResult, setIsResult] = useState<number | boolean>(true);
 	const [editText, setEditText] = useState<boolean | number | null>(null);
 	const [commitModal, setCommitModal] = useState<string>("");
-	const [openModal, setOpenModal] = useState<boolean | number>(false);
+	const [openModal, setOpenModal] = useState<  number | null>(null);
 	const [editInputValue, setEditInputValue] = useState<string>("");
 	const [modalDiv, setModalDiv] = useState<boolean | number>(false);
 
@@ -119,10 +119,13 @@ const Todo_List = () => {
 
 	const patchCommitMap = (_id: number) => {
 		console.log(_id);
+		console.log(openModal);
 
 		const newData = {
 			commit: commitModal,
 		};
+		console.log(newData);
+
 		dispatch(patchCommit({ newData, _id }));
 	};
 
