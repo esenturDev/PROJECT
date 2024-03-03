@@ -6,7 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
 // import { getResultsBekents, getUserProfile } from "../../../store/tools/LoginSlice";
 import { createPortal } from "react-dom";
 import Modal from "../../modal/Modal";
-import { deleteCards, getUserProfile } from "../../../store/tools/LoginSlice";
+import {
+	deleteCards,
+	deleteProfileCards,
+	getUserProfile,
+} from "../../../store/tools/LoginSlice";
 import Modal2 from "../../modal2/Modal2";
 import { getPhotosResult } from "../../../store/tools/PhotosSlice";
 // import { Button } from "../../Ul/button/Button";
@@ -33,6 +37,9 @@ export const Header = () => {
 		dispatch(deleteCards(id));
 		navigate("/registr");
 	};
+	function deleteProfile(id: number) {
+		dispatch(deleteProfileCards(id));
+	}
 	console.log(mapBekentsIsImg);
 	useEffect(() => {
 		dispatch(getUserProfile());
@@ -57,18 +64,56 @@ export const Header = () => {
 							{mapBekentsIsImg.map((item, index) => (
 								<>
 									<Img
-										onClick={() => setModal(true)}
+										onClick={() => setModal(!modal)}
 										src={item.img}
 										key={index}
 										alt={item.email}
 									/>
+									{/* <button onClick={() => deleteProfile(item._id)}>delete</button> */}
 								</>
 							))}
 						</ContentDiv2>
+						{modal ? (
+							<DivModal>
+								<h3 className="h3">УЧЕТНАЯ ЗАПИСЬ</h3>
+								<div className="profileUser">
+									{mapBekentsIsImg.map((item, index) => (
+										<>
+											<Img
+												onClick={() => setModal(true)}
+												src={item.img}
+												key={index}
+												alt={item.email}
+											/>
+											<div>
+												<h2>{item.email}</h2>
+												<h3>{item.email}</h3>
+											</div>
+										</>
+									))}
+								</div>
+								<h2>Переключение аккаунтов</h2>
+								<h2>Управление аккаунтов</h2>
+								<div className="divBorder"></div>
+								<p className="trello">TRELLO</p>
+								<p>Прифиль и доступ</p>
+								<p>Действия</p>
+								<p>Карточки</p>
+								<p>Настройки</p>
+								<p>Выбор темы</p>
+								<div className="divBorder"></div>
+								<p>Помощь</p>
+								<p>Горячие клавиши</p>
+								<div className="divBorder"></div>
+								<button onClick={() => removeLocalIsBekents(1)}>Выйти</button>
+							</DivModal>
+						) : (
+							""
+						)}
 					</Content>
 				</Container>
 			</HeaderContainer>
-			{modal &&
+			{/* {modal &&
 				createPortal(
 					<Modal>
 						<div></div>
@@ -78,7 +123,7 @@ export const Header = () => {
 						</div>
 					</Modal>,
 					document.getElementById("modal")
-				)}
+				)} */}
 			{modalPhotos &&
 				createPortal(
 					<Modal2>
@@ -125,6 +170,7 @@ const HeaderContainer = styled.header`
 	justify-content: center;
 	align-items: center;
 	flex-direction: column; */
+	transition: all 0.7s ease;
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -150,6 +196,122 @@ const Container = styled.div`
 	padding-inline: 30px;
 `;
 
+const DivModal = styled.div`
+	position: absolute;
+	top: 3.7rem;
+	right: 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	gap: 1px;
+	width: 13.5rem;
+	/* height: 21rem; */
+	height: auto;
+	padding-inline: 0.4rem;
+	padding-block: 0.3rem;
+	border-radius: 12px;
+	background-color: #343131;
+	box-shadow: 0px 0px 4px #2a2929;
+	.h3 {
+		color: #cdc8c8;
+		font-size: 10px;
+		font-weight: 500;
+		padding-block: 3px;
+		padding-left: 10px;
+		padding-block: 10px;
+		&:hover {
+			transition: all 0.2s ease;
+			background-color: #5d5757;
+			border-radius: 15px;
+		}
+	}
+	.profileUser {
+		display: flex;
+		justify-content: space-evenly;
+		align-items: start;
+		div {
+			display: flex;
+			flex-direction: column;
+			gap: -10px;
+			h2 {
+				font-size: 10px;
+				font-weight: 650;
+				padding-block: 1px;
+				padding-left: 10px;
+				color: #cdc8c8;
+				&:hover {
+					transition: all 0.2s ease;
+					background-color: #5d5757;
+					border-radius: 15px;
+				}
+			}
+			h3 {
+				font-size: 7px;
+				font-weight: 450;
+				padding-block: 1px;
+				padding-left: 10px;
+				color: #cdc8c8;
+				&:hover {
+					transition: all 0.2s ease;
+					background-color: #5d5757;
+					border-radius: 15px;
+				}
+			}
+		}
+	}
+	h2 {
+		color: #cdc8c8;
+		font-size: 14px;
+		font-weight: 700;
+		padding-block: 1px;
+		padding-left: 10px;
+		&:hover {
+			transition: all 0.2s ease;
+			background-color: #5d5757;
+			border-radius: 15px;
+		}
+	}
+	.divBorder {
+		border: 0.3px solid #d2c8c8;
+		width: 10.7rem;
+		/* height: 0.1px; */
+	}
+	.trello {
+		font-size: 7px;
+		font-weight: 750;
+		color: #cdc8c8;
+		/* padding-block: 3px; */
+		padding-left: 10px;
+	}
+	p {
+		font-size: 12.8px;
+		font-weight: 700;
+		padding-block: 1px;
+		padding-left: 10px;
+		color: #cdc8c8;
+		&:hover {
+			transition: all 0.2s ease;
+			background-color: #5d5757;
+			border-radius: 15px;
+		}
+	}
+	button {
+		margin-top: 3px;
+		color: #cdc8c8;
+		padding-block: 10px;
+		background-color: transparent;
+		border: none;
+		padding-left: 15px;
+		padding-right: 10px;
+		text-align: start;
+		&:hover {
+			transition: all 0.2s ease;
+			background-color: #5d5757;
+			border-radius: 12px;
+		}
+	}
+`;
+
 const Input = styled.input`
 	width: 185px;
 	height: 30px;
@@ -162,13 +324,13 @@ const Input = styled.input`
 const Content = styled.div`
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: end;
 `;
 
 const ContentDiv1 = styled.div`
 	display: flex;
 	justify-content: space-evenly;
-	align-items: center;
+	align-items: end;
 	gap: 1rem;
 	padding-left: 1.5rem;
 `;
@@ -208,7 +370,8 @@ const Button = styled.button`
 const ContentDiv2 = styled.div`
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: end;
+	gap: 1rem;
 	padding-right: 1.5rem;
 `;
 

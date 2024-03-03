@@ -33,6 +33,7 @@ import logo6 from "../../../../assets/pencil-ruler-2-fill.svg";
 import ModalCardsDiv from "../../../ModalCardsDiv/ModalCardsDiv";
 import logo7 from "../../../../assets/arrow-up-down-line.svg";
 import logo8 from "../../../../assets/inbox-unarchive-line.svg";
+import logo9 from "../../../../assets/tornado-line.svg";
 // import { getCommit, postCommit } from "../../../../store/tools/CimmitSlice";
 
 const Todo_List = () => {
@@ -51,7 +52,7 @@ const Todo_List = () => {
 	// const commitId = commit.find((item) => item._id);
 	// console.log(commit);
 
-	const [modalDiv, setModalDiv] = useState<boolean | number>(false);
+	const [modalDiv, setModalDiv] = useState<boolean | number | null>(null);
 
 	const [array, setArry] = useState<[]>([]);
 	function editInputs(id: number) {
@@ -76,7 +77,10 @@ const Todo_List = () => {
 	const CardsResults = useAppSelector((state) => state.columnSliceResults.data);
 	const [modalInputValue, setModalInputValue] = useState<string>("");
 	const userProfile = useAppSelector((state) => state.loginSliceResult.data);
-	const [commitText, setCommitText] = useState<boolean>("");
+	const [commitText, setCommitText] = useState<boolean | string>("");
+	const [settingsIsCards, setSettingsIsCards] = useState<boolean | number>(
+		false
+	);
 	const [colorStyle, setColorStyle] = useState<number | string | null>(null);
 	const [bekColorResult, setBekColorResult] = useState<number | string>(
 		`${scss.containerHome1}`
@@ -116,6 +120,9 @@ const Todo_List = () => {
 	function handleCardsDiv(id: number) {
 		setModalDiv(id);
 	}
+	const handleCardsOpenModal = (id: number) => {
+		setSettingsIsCards(id);
+	};
 	const patchResult = (_id: number, item: [], title: string) => {
 		console.log(item.column);
 		console.log("text");
@@ -205,7 +212,7 @@ const Todo_List = () => {
 		// };
 		// dispatch(postCommit({ newData, id: commitId }));
 		// localStorage.removeItem("commit");
-		// localStorage.setItem('commit', JSON.stringify(commitModal))
+		localStorage.setItem("commit", JSON.stringify(commitModal));
 		// localStorage.getItem("commit");
 		setCommitText(false);
 	}
@@ -355,17 +362,45 @@ const Todo_List = () => {
 											{cards &&
 												cards.map((item, index) => (
 													<MapCadrs key={index}>
-														<p>{item.title}</p>
-														<button onClick={() => deleteCardsBek(item._id)}>
+														<div className="titleAndImageIcon">
+															<p>{item.title}</p>
+															<img
+																onClick={
+																	() => handleCardsDiv(item._id)
+																	// setModalDiv(false)
+																}
+																src={logo6}
+																alt="logo6 Pen"
+															/>
+														</div>
+														{/* <button onClick={() => deleteCardsBek(item._id)}>
 															delete
-														</button>
+														</button> */}
 														<button
 															onClick={() => {
 																copyMapColupn(item._id);
 															}}>
 															copy
 														</button>
-
+														{modalDiv === item._id
+															? createPortal(
+																	<ModalCardsDiv>
+																		<ModalDiv>
+																			<>
+																				<button
+																					onClick={() => {
+																						deleteCardsBek(item._id);
+																						setModalDiv(false);
+																					}}>
+																					<img src={logo8} alt="logo8" />
+																					<span>Архивировать</span>
+																				</button>
+																			</>
+																		</ModalDiv>
+																	</ModalCardsDiv>,
+																	document.getElementById("modal")
+															  )
+															: ""}
 														<DivItemCards>
 															{item.column &&
 																item.column.map(
@@ -392,24 +427,37 @@ const Todo_List = () => {
 																			key={itemIndex._id}>
 																			{editText !== itemIndex._id ? (
 																				<>
-																					{itemIndexIdResult ===
-																					itemIndex._id ? (
-																						<div
-																							className={`${styleResultBekColor}`}></div>
-																					) : (
-																						""
-																					)}
-																					<p
-																						onClick={() =>
-																							openModalResultItemId(
-																								itemIndex._id
-																							)
-																						}>
-																						{itemIndex.name}
-																					</p>
-																					{openModal === itemIndex._id && (
-																						<p>{commitModal}</p>
-																					)}
+																					<div
+																						style={{
+																							display: "flex",
+																							flexDirection: "column",
+																							gap: "0.px",
+																						}}>
+																						{itemIndexIdResult ===
+																						itemIndex._id ? (
+																							<div
+																								className={`${styleResultBekColor}`}></div>
+																						) : (
+																							""
+																						)}
+																						<p
+																							onClick={() =>
+																								openModalResultItemId(
+																									itemIndex._id
+																								)
+																							}>
+																							{itemIndex.name}
+																						</p>
+																						{openModal === itemIndex._id && (
+																							<p
+																								style={{
+																									color: "#e1d7d7",
+																									fontSize: "12px",
+																								}}>
+																								{commitModal}
+																							</p>
+																						)}
+																					</div>
 																					{/* {commit.map((itemCommit) => (
 																						<div key={itemCommit._id}>
 																							<p>{itemCommit.commit}</p>
@@ -426,13 +474,15 @@ const Todo_List = () => {
 																					<img
 																						onClick={
 																							() =>
-																								handleCardsDiv(itemIndex._id)
+																								handleCardsOpenModal(
+																									itemIndex._id
+																								)
 																							// setModalDiv(false)
 																						}
 																						src={logo6}
 																						alt="logo6 Pen"
 																					/>
-																					{modalDiv === itemIndex._id
+																					{settingsIsCards === itemIndex._id
 																						? createPortal(
 																								<ModalCardsDiv>
 																									<ModalDiv>
@@ -449,22 +499,6 @@ const Todo_List = () => {
 																												/>
 																												<span>
 																													Изменить метки
-																												</span>
-																											</button>
-																										</>
-																										<>
-																											<button
-																												onClick={() =>
-																													deleteCardsBek(
-																														item._id
-																													)
-																												}>
-																												<img
-																													src={logo8}
-																													alt="logo8"
-																												/>
-																												<span>
-																													Архивировать
 																												</span>
 																											</button>
 																										</>
@@ -895,9 +929,20 @@ const MapCadrs = styled.div`
 	z-index: -1; */
 	gap: 1rem;
 	/* align-items: center; */
-	p {
-		text-align: start;
-		color: #fff;
+	.titleAndImageIcon {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		p {
+			text-align: start;
+			color: #fff;
+		}
+		img {
+			width: 18px;
+			height: 18px;
+			background-color: #a79f9f;
+			border-radius: 20%;
+		}
 	}
 	button {
 		margin-top: 1.5rem;
@@ -1038,7 +1083,7 @@ const DivItemCards = styled.div`
 		gap: 10px;
 		width: 12rem;
 		padding-inline: 8px;
-		height: 3rem;
+		height: auto;
 		background-color: #2d2a2a;
 		border-radius: 10px;
 		&:hover {
@@ -1294,7 +1339,7 @@ const ContentsDiv = styled.div`
 	/* background-color: #7219aadd; */
 	padding-left: 4.9rem;
 	width: 100%;
-	height: 100vh;
+	height: 100vw;
 	button {
 		width: 120px;
 		height: 45px;
@@ -1322,7 +1367,7 @@ const NavDiv = styled.nav`
 const NavBar = styled.nav`
 	width: 15rem;
 
-	height: 100vh;
+	height: 100vw;
 	margin-left: -50px;
 
 	background-color: #17111be9;

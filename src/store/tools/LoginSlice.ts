@@ -53,6 +53,15 @@ export const getUserProfile = createAsyncThunk(
 	}
 );
 
+export const deleteProfileCards = createAsyncThunk('login/deleteProfileCards', async (id) => {
+	try {
+		const response = (await axios.delete(`${url}/${id}`)).data;
+		return response;
+	} catch (error) {
+		console.error(error);
+	}
+})
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 interface LoginAdmin {
 	email: string;
@@ -83,6 +92,9 @@ const loginSlice = createSlice({
 				state.data = action.payload;
 			})
 			.addCase(deleteCards.fulfilled, (state, action) => {
+				state.data = action.payload;
+			})
+			.addCase(deleteProfileCards.fulfilled, (state, action) => {
 				state.data = action.payload;
 			});
 	},
