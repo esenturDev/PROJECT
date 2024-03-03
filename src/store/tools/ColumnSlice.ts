@@ -12,12 +12,11 @@ interface CardsResults {
 			{
 				_id: number;
 				name: string;
-				commit: string;
+				// commit: string;
 			}
 		];
 	};
 }
-
 
 export const putEditResult = createAsyncThunk(
 	"column/putEditResult",
@@ -31,19 +30,20 @@ export const putEditResult = createAsyncThunk(
 	}
 );
 
-export const patchCommit = createAsyncThunk(
-	"column/patchCommit",
-	async ({ newData, _id }: CardsResults) => {
-		console.log(newData, _id);
-		
-		try {
-			const response = (await axios.patch(`${url}/${_id}`, newData)).data;
-			return response;
-		} catch (error) {
-			console.error(error);
-		}
-	}
-);
+// export const patchCommit = createAsyncThunk(
+// 	"column/patchCommit",
+// 	async ({ newData, _id }: CardsResults) => {
+// 		console.log(newData, _id);
+
+// 		try {
+// 			const response = (await axios.post(`${url}/${_id}`, newData)).data;
+// 			return response;
+// 		} catch (error) {
+// 			console.error(error);
+// 			alert("Error");
+// 		}
+// 	}
+// );
 
 export const getBekents = createAsyncThunk("column/getBekents", async () => {
 	try {
@@ -101,6 +101,7 @@ export const postBekents = createAsyncThunk(
 	}
 );
 
+
 const ColumnSlice = createSlice({
 	name: "column",
 	initialState,
@@ -122,9 +123,7 @@ const ColumnSlice = createSlice({
 			.addCase(putEditResult.fulfilled, (state, action) => {
 				state.data = action.payload;
 			})
-			.addCase(patchCommit.fulfilled, (state, action) => {
-				state.data = action.payload;
-			});
+			;
 	},
 });
 

@@ -11,11 +11,12 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { useAppSelector } from "../../../../store/store";
 import logo from "../../../../assets/contract-up-down-line.svg";
+import scss from "./Todo_List.module.scss";
 import {
 	deleteCards,
 	getBekents,
 	patchCard,
-	patchCommit,
+	// patchCommit,
 	postBekents,
 	putEditResult,
 } from "../../../../store/tools/ColumnSlice";
@@ -32,29 +33,76 @@ import logo6 from "../../../../assets/pencil-ruler-2-fill.svg";
 import ModalCardsDiv from "../../../ModalCardsDiv/ModalCardsDiv";
 import logo7 from "../../../../assets/arrow-up-down-line.svg";
 import logo8 from "../../../../assets/inbox-unarchive-line.svg";
+// import { getCommit, postCommit } from "../../../../store/tools/CimmitSlice";
 
 const Todo_List = () => {
+	// const hello = prompt('');
+	// if(hello) {
+	// 	alert(`${hello} Кош келдиниз!!!`)
+	// }
 	const cards = useAppSelector((state) => state.columnSliceResults.data);
 	const [isResult, setIsResult] = useState<number | boolean>(true);
 	const [editText, setEditText] = useState<boolean | number | null>(null);
 	const [commitModal, setCommitModal] = useState<string>("");
-	const [openModal, setOpenModal] = useState<  number | null>(null);
+	const [openModal, setOpenModal] = useState<number | null>(null);
+	const [copyMap, setCopyMap] = useState<number | null>(null);
 	const [editInputValue, setEditInputValue] = useState<string>("");
+	// const commit = useAppSelector((state) => state.commitSliceReducer.data);
+	// const commitId = commit.find((item) => item._id);
+	// console.log(commit);
+
 	const [modalDiv, setModalDiv] = useState<boolean | number>(false);
 
+	const [array, setArry] = useState<[]>([]);
 	function editInputs(id: number) {
 		setEditText(id);
 	}
+
+	const copyMapColupn = (id: number) => {
+		setCopyMap(id);
+		setArry([...cards]);
+	};
 
 	const dispatch = useDispatch();
 	const [cardsInputValue, setCardsInputValue] = useState<string>("");
 
 	const [isCardsBoolean, setIsCardsBoolean] = useState<boolean>(true);
-
+	const [styleResultBekColor, setStyleResultBekColor] = useState<
+		number | string
+	>("");
+	const [itemIndexIdResult, setItemIndexIdResult] = useState<
+		number | null | string
+	>(null);
 	const CardsResults = useAppSelector((state) => state.columnSliceResults.data);
 	const [modalInputValue, setModalInputValue] = useState<string>("");
 	const userProfile = useAppSelector((state) => state.loginSliceResult.data);
+	const [commitText, setCommitText] = useState<boolean>("");
+	const [colorStyle, setColorStyle] = useState<number | string | null>(null);
+	const [bekColorResult, setBekColorResult] = useState<number | string>(
+		`${scss.containerHome1}`
+	);
 	console.log(CardsResults);
+
+	function homeBekColor() {
+		setBekColorResult(`${scss.containerHome1}`);
+	}
+
+	const homeBekColor2 = () => {
+		setBekColorResult(`${scss.containerHome2}`);
+	};
+
+	const homeBekColor3 = () => {
+		setBekColorResult(`${scss.containerHome3}`);
+	};
+	const homeBekColor4 = () => {
+		setBekColorResult(`${scss.containerHome4}`);
+	};
+	const homeBekColor5 = () => {
+		setBekColorResult(`${scss.containerHome5}`);
+	};
+	const homeBekColor6 = () => {
+		setBekColorResult(`${scss.containerHome6}`);
+	};
 
 	const [columnsInputValue, setColumnsInputValue] = useState<string>("");
 	const postCards = () => {
@@ -80,12 +128,42 @@ const Todo_List = () => {
 				{
 					_id: Math.random(),
 					name: columnsInputValue,
-					commit: commitModal,
+					// commit: commitModal,
 				},
 			],
 		};
 		dispatch(patchCard({ newData, _id }));
 	};
+
+	function classDivBekColor1(id: number) {
+		setStyleResultBekColor(`${scss.divColor1}`);
+		setItemIndexIdResult(id);
+		localStorage.setItem("color", JSON.stringify(id));
+	}
+	function classDivBekColor2(id: number) {
+		setStyleResultBekColor(`${scss.divColor2}`);
+		setItemIndexIdResult(id);
+		localStorage.setItem("color", JSON.stringify(id));
+	}
+	function classDivBekColor3(id: number) {
+		setStyleResultBekColor(`${scss.divColor3}`);
+		setItemIndexIdResult(id);
+		localStorage.setItem("color", JSON.stringify(id));
+	}
+	function classDivBekColor4(id: number) {
+		setStyleResultBekColor(`${scss.divColor4}`);
+		setItemIndexIdResult(id);
+		localStorage.setItem("color", JSON.stringify(id));
+	}
+	function classDivBekColor5(id: number) {
+		setStyleResultBekColor(`${scss.divColor5}`);
+		setItemIndexIdResult(id);
+		localStorage.setItem("color", JSON.stringify(id));
+	}
+
+	function addStyleResultDiv(id: number) {
+		setColorStyle(id);
+	}
 
 	const [addButton, setAddButton] = useState<boolean | number | string>("");
 
@@ -93,7 +171,7 @@ const Todo_List = () => {
 		dispatch(deleteCards(id));
 	};
 
-	const patchSave = (_id: number, column: [], id: number, commit) => {
+	const patchSave = (_id: number, column: [], id: number) => {
 		console.log(_id, column, id);
 
 		const resultCards = column.map((item) => {
@@ -102,7 +180,7 @@ const Todo_List = () => {
 			}
 			return {
 				name: editInputValue,
-				commit,
+				// commit,
 				_id: id,
 			};
 		});
@@ -115,23 +193,41 @@ const Todo_List = () => {
 
 	function openModalResultItemId(id: number) {
 		setOpenModal(id);
+		setCommitText(true);
+		// localStorage.removeItem("commit");
 	}
 
-	const patchCommitMap = (_id: number) => {
-		console.log(_id);
-		console.log(openModal);
+	function commitResultLocalisFalse() {
+		// console.log(id);
 
-		const newData = {
-			commit: commitModal,
-		};
-		console.log(newData);
+		// const newData = {
+		// 	commit: commitModal,
+		// };
+		// dispatch(postCommit({ newData, id: commitId }));
+		// localStorage.removeItem("commit");
+		// localStorage.setItem('commit', JSON.stringify(commitModal))
+		// localStorage.getItem("commit");
+		setCommitText(false);
+	}
 
-		dispatch(patchCommit({ newData, _id }));
-	};
+	// const patchCommitMap = (_id: number) => {
+	// 	console.log(_id);
+
+	// 	// console.log(_id);
+	// 	// console.log(openModal);
+
+	// 	const newData = {
+	// 		commit: commitModal,
+	// 	};
+	// 	console.log(newData);
+
+	// 	dispatch(patchCommit({ newData, _id }));
+	// };
 
 	useEffect(() => {
 		dispatch(getUserProfile());
 		dispatch(getBekents());
+		// dispatch(getCommit());
 	}, []);
 	const handleIsResults = (_id: number) => {
 		console.log(_id);
@@ -192,7 +288,14 @@ const Todo_List = () => {
 											<p>Мои доски</p>
 										</NavContent1>
 										<NavContent1>
-											<div></div>
+											<div>
+												<div className="div1" onClick={homeBekColor}></div>
+												<div className="div2" onClick={homeBekColor2}></div>
+												<div className="div3" onClick={homeBekColor3}></div>
+												<div className="div4" onClick={homeBekColor4}></div>
+												<div className="div5" onClick={homeBekColor5}></div>
+												<div className="div6" onClick={homeBekColor6}></div>
+											</div>
 										</NavContent1>
 									</DivContents>
 								</>
@@ -217,7 +320,7 @@ const Todo_List = () => {
 										<ButtonFull>Поделиться</ButtonFull>
 									</NavDivContent2>
 								</NavDiv>
-								<ContentsDiv>
+								<ContentsDiv className={`${bekColorResult}`}>
 									<CardsResultsBekents>
 										<>
 											{isCardsBoolean ? (
@@ -253,9 +356,16 @@ const Todo_List = () => {
 												cards.map((item, index) => (
 													<MapCadrs key={index}>
 														<p>{item.title}</p>
-														{/* <button onClick={() => deleteCardsBek(item._id)}>
+														<button onClick={() => deleteCardsBek(item._id)}>
 															delete
-														</button> */}
+														</button>
+														<button
+															onClick={() => {
+																copyMapColupn(item._id);
+															}}>
+															copy
+														</button>
+
 														<DivItemCards>
 															{item.column &&
 																item.column.map(
@@ -282,6 +392,13 @@ const Todo_List = () => {
 																			key={itemIndex._id}>
 																			{editText !== itemIndex._id ? (
 																				<>
+																					{itemIndexIdResult ===
+																					itemIndex._id ? (
+																						<div
+																							className={`${styleResultBekColor}`}></div>
+																					) : (
+																						""
+																					)}
 																					<p
 																						onClick={() =>
 																							openModalResultItemId(
@@ -290,7 +407,15 @@ const Todo_List = () => {
 																						}>
 																						{itemIndex.name}
 																					</p>
-																					<p>{itemIndex.commit}</p>
+																					{openModal === itemIndex._id && (
+																						<p>{commitModal}</p>
+																					)}
+																					{/* {commit.map((itemCommit) => (
+																						<div key={itemCommit._id}>
+																							<p>{itemCommit.commit}</p>
+																						</div>
+																					))} */}
+																					{/* <p>{itemIndex.commit}</p> */}
 																					<img
 																						onClick={() =>
 																							editInputs(itemIndex._id)
@@ -312,7 +437,12 @@ const Todo_List = () => {
 																								<ModalCardsDiv>
 																									<ModalDiv>
 																										<>
-																											<button>
+																											<button
+																												onClick={() => {
+																													addStyleResultDiv(
+																														itemIndex._id
+																													);
+																												}}>
 																												<img
 																													src={logo7}
 																													alt="logo7"
@@ -339,6 +469,48 @@ const Todo_List = () => {
 																											</button>
 																										</>
 																									</ModalDiv>
+																									{colorStyle ===
+																									itemIndex._id ? (
+																										<Div>
+																											<div
+																												onClick={() => {
+																													classDivBekColor1(
+																														itemIndex._id
+																													);
+																												}}
+																												className="colordiv1"></div>
+																											<div
+																												onClick={() => {
+																													classDivBekColor2(
+																														itemIndex._id
+																													);
+																												}}
+																												className="colordiv2"></div>
+																											<div
+																												onClick={() => {
+																													classDivBekColor3(
+																														itemIndex._id
+																													);
+																												}}
+																												className="colordiv3"></div>
+																											<div
+																												onClick={() => {
+																													classDivBekColor4(
+																														itemIndex._id
+																													);
+																												}}
+																												className="colordiv4"></div>
+																											<div
+																												onClick={() => {
+																													classDivBekColor5(
+																														itemIndex._id
+																													);
+																												}}
+																												className="colordiv5"></div>
+																										</Div>
+																									) : (
+																										""
+																									)}
 																								</ModalCardsDiv>,
 																								document.getElementById("modal")
 																						  )
@@ -365,8 +537,8 @@ const Todo_List = () => {
 																								patchSave(
 																									item._id,
 																									item.column,
-																									itemIndex._id,
-																									itemIndex.commit
+																									itemIndex._id
+																									// itemIndex.commit
 																									// item.title
 																								)
 																							}>
@@ -415,6 +587,237 @@ const Todo_List = () => {
 														)}
 													</MapCadrs>
 												))}
+											{copyMap
+												? array &&
+												  array.map((item, index) => (
+														<MapCadrs key={index}>
+															<p>{item.title}</p>
+															<button onClick={() => deleteCardsBek(item._id)}>
+																delete
+															</button>
+															<button
+																onClick={() => {
+																	copyMapColupn(item._id);
+																}}>
+																copy
+															</button>
+
+															<DivItemCards>
+																{item.column &&
+																	item.column.map(
+																		(itemIndex: {
+																			_id: Key | null | undefined;
+																			name:
+																				| string
+																				| number
+																				| boolean
+																				| ReactElement<
+																						any,
+																						string | JSXElementConstructor<any>
+																				  >
+																				| Iterable<ReactNode>
+																				| ReactPortal
+																				| null
+																				| undefined;
+																		}) => (
+																			<div
+																				onClick={() => {
+																					// openModalResultItemId(itemIndex._id);
+																					setModalInputValue(itemIndex.name);
+																				}}
+																				key={itemIndex._id}>
+																				{editText !== itemIndex._id ? (
+																					<>
+																						{itemIndexIdResult ===
+																						itemIndex._id ? (
+																							<div
+																								className={`${styleResultBekColor}`}></div>
+																						) : (
+																							""
+																						)}
+																						<p
+																							onClick={() =>
+																								openModalResultItemId(true)
+																							}>
+																							{itemIndex.name}
+																						</p>
+																						{/* <p>{itemIndex.commit}</p> */}
+																						<img
+																							onClick={() =>
+																								editInputs(itemIndex._id)
+																							}
+																							src={photoPen}
+																							alt="pen"
+																						/>
+																						<img
+																							onClick={
+																								() =>
+																									handleCardsDiv(itemIndex._id)
+																								// setModalDiv(false)
+																							}
+																							src={logo6}
+																							alt="logo6 Pen"
+																						/>
+																						{modalDiv === itemIndex._id
+																							? createPortal(
+																									<ModalCardsDiv>
+																										<ModalDiv>
+																											<>
+																												<button
+																													onClick={() => {
+																														addStyleResultDiv(
+																															itemIndex._id
+																														);
+																													}}>
+																													<img
+																														src={logo7}
+																														alt="logo7"
+																													/>
+																													<span>
+																														Изменить метки
+																													</span>
+																												</button>
+																											</>
+																											<>
+																												<button
+																													onClick={() =>
+																														deleteCardsBek(
+																															item._id
+																														)
+																													}>
+																													<img
+																														src={logo8}
+																														alt="logo8"
+																													/>
+																													<span>
+																														Архивировать
+																													</span>
+																												</button>
+																											</>
+																										</ModalDiv>
+																										{colorStyle ===
+																										itemIndex._id ? (
+																											<Div>
+																												<div
+																													onClick={() => {
+																														classDivBekColor1(
+																															itemIndex._id
+																														);
+																													}}
+																													className="colordiv1"></div>
+																												<div
+																													onClick={() => {
+																														classDivBekColor2(
+																															itemIndex._id
+																														);
+																													}}
+																													className="colordiv2"></div>
+																												<div
+																													onClick={() => {
+																														classDivBekColor3(
+																															itemIndex._id
+																														);
+																													}}
+																													className="colordiv3"></div>
+																												<div
+																													onClick={() => {
+																														classDivBekColor4(
+																															itemIndex._id
+																														);
+																													}}
+																													className="colordiv4"></div>
+																												<div
+																													onClick={() => {
+																														classDivBekColor5(
+																															itemIndex._id
+																														);
+																													}}
+																													className="colordiv5"></div>
+																											</Div>
+																										) : (
+																											""
+																										)}
+																									</ModalCardsDiv>,
+																									document.getElementById(
+																										"modal"
+																									)
+																							  )
+																							: ""}
+																					</>
+																				) : (
+																					<div className="EditDiv">
+																						<input
+																							type="text"
+																							value={editInputValue}
+																							onChange={(e) =>
+																								setEditInputValue(
+																									e.target.value
+																								)
+																							}
+																						/>
+																						<div className="divButtons">
+																							<button
+																								onClick={() =>
+																									setEditText(false)
+																								}>
+																								Cancel
+																							</button>
+																							<button
+																								onClick={() =>
+																									patchSave(
+																										item._id,
+																										item.column,
+																										itemIndex._id,
+																										itemIndex.commit
+																										// item.title
+																									)
+																								}>
+																								Same
+																							</button>
+																						</div>
+																					</div>
+																				)}
+																			</div>
+																		)
+																	)}
+															</DivItemCards>
+															{isResult !== item._id ? (
+																<button
+																	onClick={() => {
+																		handleIsResults(item._id);
+																	}}>
+																	Добавить карточку
+																</button>
+															) : (
+																<>
+																	<input
+																		type="text"
+																		value={columnsInputValue}
+																		onChange={(e) =>
+																			setColumnsInputValue(e.target.value)
+																		}
+																		placeholder="Ввести заголовок для этой карточки"
+																	/>
+																	<div className="buttonsDiv">
+																		<button
+																			className="button"
+																			onClick={() => {
+																				patchResult(item._id, item, item.title);
+																				setIsResult(true);
+																			}}>
+																			Добавить карточку
+																		</button>
+																		<button
+																			className="button"
+																			onClick={() => handleResult()}>
+																			inputNoo
+																		</button>
+																	</div>
+																</>
+															)}
+														</MapCadrs>
+												  ))
+												: ""}
 										</>
 									</CardsResultsBekents>
 								</ContentsDiv>
@@ -423,7 +826,7 @@ const Todo_List = () => {
 					</Container>
 				</>
 			</ResultProject>
-			{openModal &&
+			{commitText &&
 				createPortal(
 					<CardsModal>
 						<div>
@@ -434,7 +837,7 @@ const Todo_List = () => {
 								value={commitModal}
 								onChange={(e) => setCommitModal(e.target.value)}
 							/>
-							<button onClick={() => patchCommitMap(openModal)}>
+							<button onClick={() => commitResultLocalisFalse()}>
 								Сохранить
 							</button>
 						</div>
@@ -446,6 +849,15 @@ const Todo_List = () => {
 };
 
 export default Todo_List;
+// array.map((itemId) => (
+// 	<div key={itemId._id}>
+// 		<h2>{itemId.title}</h2>
+// 		{itemId.column && itemId.column.map((itemResult) => (
+// 			<div key={itemResult._id}>
+// 				<p>{itemResult.name}</p>
+// 			</div>
+// 		))}
+// 	</div>
 
 const Button = styled.button`
 	padding-right: 3.2rem;
@@ -479,6 +891,8 @@ const MapCadrs = styled.div`
 	padding-block: 1.5px;
 	padding-bottom: 9px;
 	padding-inline: 10px;
+	/* position: relative;
+	z-index: -1; */
 	gap: 1rem;
 	/* align-items: center; */
 	p {
@@ -530,6 +944,46 @@ const MapCadrs = styled.div`
 				background-color: #e3d9d9ad;
 			}
 		}
+	}
+`;
+
+const Div = styled.div`
+	position: relative;
+	left: 2rem;
+	top: 0.8rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	gap: 0.7rem;
+	.colordiv1 {
+		width: 115px;
+		height: 45px;
+		border-radius: 15px;
+		background-color: green;
+	}
+	.colordiv2 {
+		width: 115px;
+		height: 45px;
+		border-radius: 15px;
+		background-color: #5312ce;
+	}
+	.colordiv3 {
+		width: 115px;
+		height: 45px;
+		border-radius: 15px;
+		background-color: #e7e715;
+	}
+	.colordiv4 {
+		width: 115px;
+		height: 45px;
+		border-radius: 15px;
+		background-color: #fb0ecc;
+	}
+	.colordiv5 {
+		width: 115px;
+		height: 45px;
+		border-radius: 15px;
+		background-color: #fff;
 	}
 `;
 
@@ -769,11 +1223,52 @@ const NavContent1 = styled.div`
 		font-size: 14px;
 	}
 	div {
-		width: 100px;
-		height: 48px;
-		border-radius: 7px;
-		border: none;
-		background-color: #7219aadd;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 12px;
+		.div1 {
+			width: 100px;
+			height: 48px;
+			border-radius: 7px;
+			border: none;
+			background-color: #7219aadd;
+		}
+		.div2 {
+			width: 100px;
+			height: 48px;
+			border-radius: 7px;
+			border: none;
+			background-color: peachpuff;
+		}
+		.div3 {
+			width: 100px;
+			height: 48px;
+			border-radius: 7px;
+			border: none;
+			background-color: rgb(59, 59, 214);
+		}
+		.div4 {
+			width: 100px;
+			height: 48px;
+			border-radius: 7px;
+			border: none;
+			background-color: rgb(122, 122, 140);
+		}
+		.div5 {
+			width: 100px;
+			height: 48px;
+			border-radius: 7px;
+			border: none;
+			background-color: rgb(191, 214, 59);
+		}
+		.div6 {
+			width: 100px;
+			height: 48px;
+			border-radius: 7px;
+			border: none;
+			background-color: rgb(207, 207, 235);
+		}
 	}
 `;
 
@@ -796,7 +1291,7 @@ const DivContents = styled.div`
 const ContentsDiv = styled.div`
 	display: flex;
 	flex-direction: column;
-	background-color: #7219aadd;
+	/* background-color: #7219aadd; */
 	padding-left: 4.9rem;
 	width: 100%;
 	height: 100vh;

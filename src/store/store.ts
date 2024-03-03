@@ -4,11 +4,13 @@ import { loginSlice } from "./tools/LoginSlice"; // Поправьте путь 
 import {columnSliceResults} from './tools/ColumnSlice';
 import {loginSliceResult} from './tools/LoginSlice'
 import {PhotosIsBekents} from './tools/PhotosSlice';
+import {commitSliceReducer} from './tools/CimmitSlice';
 export const store = configureStore({
 	reducer: {
 		loginSliceResult,
 		columnSliceResults,
 		PhotosIsBekents,
+		commitSliceReducer,
 	},
 });
 

@@ -1,34 +1,71 @@
+.containerHome1 {
+	transition: all 0.8s ease;
+	background-color: #7219aadd;
+}
+
+.containerHome2 {
+	transition: all 0.8s ease;
+	background-color: peachpuff;
+}
+
+.containerHome3 {
+	transition: all 0.8s ease;
+	background-color: rgb(59, 59, 214);
+}
+.containerHome4 {
+	transition: all 0.8s ease;
+	background-color: rgb(122, 122, 140);
+}
+.containerHome5 {
+	transition: all 0.8s ease;
+	background-color: rgb(191, 214, 59);
+}
+.containerHome6 {
+	transition: all 0.8s ease;
+	background-color: rgb(207, 207, 235);
+}
+
 .divColor1 {
-	width: auto;
-	height: 5px;
+	width: 10px;
+	height: 2px;
 	border-radius: 12px;
 	background-color: green;
+	position: relative;
+	z-index: 200;
 }
 
 .divColor2 {
-	width: auto;
-	height: 5px;
+	width: 10px;
+	height: 2px;
 	border-radius: 12px;
-	background-color: rgb(231, 231, 33);
+	background-color: #5312ce;
+	position: relative;
+	z-index: 200;
 }
 
 .divColor3 {
-	width: auto;
-	height: 5px;
+	width: 10px;
+	height: 2px;
 	border-radius: 12px;
-	background-color: rgb(215, 125, 29);
+	background-color: #e7e715;
+	position: relative;
+	z-index: 200;
 }
 
 .divColor4 {
-	width: auto;
-	height: 5px;
+	width: 10px;
+	height: 2px;
 	border-radius: 12px;
-	background-color: rgb(57, 57, 255);
+	background-color: #fb0ecc;
+	position: relative;
+	z-index: 200;
 }
 
 .divColor5 {
-  width: auto;
-  height: 5px;
-  border-radius: 12px;
-  background-color: #fff;
+	width: 10px;
+	height: 2px;
+	border-radius: 12px;
+	background-color: #fff;
+	position: relative;
+	z-index: 200;
 }
